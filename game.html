@@ -12,6 +12,11 @@ let ballX = 50;
 let ballY = 50;
 let ballSpeedX = 10;
 let ballSpeedY = 4;
+let player1Score = 0;
+let player2Score = 0;
+const WINNING_SCORE = 3;
+
+let showingWinScreen = false;
 
 let paddle1Y = 250;
 let paddle2Y = 250;
@@ -50,6 +55,12 @@ canvas.addEventListener('mousemove',function(evt) {
 }
 
 function ballReset(){
+    if(player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE){
+        player1Score = 0;
+        player2Score = 0;
+        showingWinScreen = true;
+    }
+
     ballSpeedX = -ballSpeedX;
     ballX = canvas.width/2;
     ballY = canvas.height/2;
@@ -57,14 +68,18 @@ function ballReset(){
 
 function computerMovement() {
     let paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
-    if(paddle2Y < ballY){
+    if(paddle2YCenter < ballY - 35){    //Ignore chasing the ball wihle it's within 25 pixels above or below the paddle center position (70 pixel span) 
         paddle2Y += 6;
-    } else {
+    } else if (paddle2YCenter > ballY + 35) {
         paddle2Y -= 6;
     }
 }
 
 function moveEverything(){
+    if (showingWinScreen) {
+        return;
+    }
+
     computerMovement();
 
     ballX = ballX + ballSpeedX;
@@ -72,15 +87,28 @@ function moveEverything(){
 
     if(ballX < 0) {
         if(ballY > paddle1Y && ballY < paddle1Y+PADDLE_HEIGHT){  //if the ball is below or above the paddle
-            ballSpeedX = -ballSpeedX
+            ballSpeedX = -ballSpeedX;
+
+            let deltaY = ballY - (paddle1Y + PADDLE_HEIGHT/2);
+
+            ballSpeedY = deltaY * 0.35;
+
         } else {
+            player1Score++; //must be before ballReset()
             ballReset();
         }
     }
     if(ballX > canvas.width){
         if(ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT){  //if the ball is below or above the paddle
             ballSpeedX = -ballSpeedX
+
+
+            let deltaY = ballY - (paddle2Y + PADDLE_HEIGHT/2);
+
+            ballSpeedY = deltaY * 0.35;
+
         } else {
+            player2Score++; //must be before ballReset()
             ballReset();
         }
     }
@@ -97,6 +125,13 @@ function moveEverything(){
 function drawEverything(){
     //next line blanks out the screen with black
     colorRect(0,0,canvas.width,canvas.height,'black');
+
+    if(showingWinScreen){
+        canvasContext.fillStyle = 'white';
+        canvasContext.fillText("click to continue",100,100);
+        return;
+    }
+
     // this is left player paddle
     colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
 
@@ -105,6 +140,11 @@ function drawEverything(){
     
     // next line draws the ball
     colorCircle(ballX, ballY, 10, 'white');
+
+
+    //Add Score text
+    canvasContext.fillText(player1Score, 100,100); //is gonna display "score stuff" at position 100,100
+    canvasContext.fillText(player2Score, canvas.width-100,100);
 }
 
 function colorCircle(centerX, centerY, radius, drawColor){
