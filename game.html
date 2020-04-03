@@ -139,16 +139,17 @@ function drawNet(){
 function drawEverything(){
     //next line blanks out the screen with black
     colorRect(0,0,canvas.width,canvas.height,'black');
+
+    canvasContext.font = "50px Arial"
     canvasContext.fillStyle = 'white';
 
     if(showingWinScreen){
         if(player1Score >= WINNING_SCORE){
-            canvasContext.fillText("Player 1 Won!",350,200);
+            canvasContext.fillText("Player 1 Won!",250,200);
         } else if (player2Score >= WINNING_SCORE){
-            canvasContext.fillText("Player 2 Won!",350,200);
+            canvasContext.fillText("Player 2 Won!",250,200);
         }
 
-        
         canvasContext.fillText("click to continue",350,500);
         return;
     }
