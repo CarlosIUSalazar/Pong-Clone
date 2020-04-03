@@ -178,7 +178,7 @@ function drawEverything() {
             canvasContext.fillText("Computer Wins!", 250, 200);
         }
 
-        canvasContext.fillText("click to play again", 350, 500);
+        canvasContext.fillText("click to play again", 250, 500);
         return;
     }
 
