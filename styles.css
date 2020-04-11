@@ -16,10 +16,6 @@ body {
 .canvasContainer {
     display: flex;
     align-items: flex-start;
-    /* vertical-align: middle;
-    width: 800px;
-    height: 600px;
-    background-color: #fff; */
     box-shadow: 0px 8px 40px 20px #0ff;
     position: absolute;
     top: 15%;
