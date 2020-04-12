@@ -33,7 +33,6 @@ function handleMouseClick() {
     }
 }
 
-
 window.onload = function () {
     console.log("Hola Mundo!");
     canvas = document.getElementById('gameCanvas');
@@ -59,7 +58,6 @@ window.onload = function () {
         }
     });
 }
-
 
 // Audio Related
 function PlaySoundGameOver() {
